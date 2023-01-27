@@ -108,6 +108,12 @@ M.find_project_files = function(prompt_bufnr, hidden_files)
   end
 end
 
+M.find_project_files_nocd = function(prompt_bufnr, hidden_files)
+  local project_path = M.get_selected_path(prompt_bufnr)
+  actions._close(prompt_bufnr, true)
+  builtin.find_files({cwd = project_path, hidden = hidden_files})
+end
+
 -- Browse through files within the selected project using
 -- the Telescope builtin `file_browser`.
 M.browse_project_files = function(prompt_bufnr)
@@ -137,6 +143,12 @@ M.search_in_project_files = function(prompt_bufnr)
       builtin.live_grep({cwd = project_path})
     end)
   end
+end
+
+M.search_in_project_files_nocd = function(prompt_bufnr)
+  local project_path = M.get_selected_path(prompt_bufnr)
+  actions._close(prompt_bufnr, true)
+  builtin.live_grep({cwd = project_path})
 end
 
 -- Search the recently used files within the selected project

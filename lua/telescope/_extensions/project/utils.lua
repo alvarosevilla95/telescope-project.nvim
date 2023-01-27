@@ -119,6 +119,7 @@ end
 -- Change directory only when path exists
 M.change_project_dir = function(project_path)
   if Path:new(project_path):exists() then
+    -- vim.cmd('silent! Open '..project_path)
     vim.fn.execute("cd " .. project_path, "silent")
     return true
   else

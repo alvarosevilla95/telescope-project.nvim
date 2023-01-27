@@ -58,28 +58,26 @@ M.project = function(opts)
       map('n', 'd', _actions.delete_project)
       map('n', 'r', _actions.rename_project)
       map('n', 'c', _actions.add_project)
-      map('n', 'f', _actions.find_project_files)
+      map('n', 'f', _actions.find_project_files_nocd)
       map('n', 'b', _actions.browse_project_files)
-      map('n', 's', _actions.search_in_project_files)
+      map('n', 's', _actions.search_in_project_files_nocd)
       map('n', 'R', _actions.recent_project_files)
       map('n', 'w', _actions.change_working_directory)
 
       map('i', '<c-d>', _actions.delete_project)
       map('i', '<c-v>', _actions.rename_project)
       map('i', '<c-a>', _actions.add_project)
-      map('i', '<c-f>', _actions.find_project_files)
+      map('i', '<c-f>', _actions.find_project_files_nocd)
       map('i', '<c-b>', _actions.browse_project_files)
-      map('i', '<c-s>', _actions.search_in_project_files)
-      map('i', '<c-r>', _actions.recent_project_files)
-      map('i', '<c-l>', _actions.change_working_directory)
-
-      -- Workspace key mappings
-      map('i', '<c-w>', _actions.change_workspace)
+      map('i', '<c-s>', _actions.search_in_project_files_nocd)
+      -- map('i', '<c-r>', _actions.recent_project_files)
+      -- map('i', '<c-l>', _actions.change_working_directory)
+      -- map('i', '<c-w>', _actions.change_workspace)
 
       local on_project_selected = function()
         _actions.find_project_files(prompt_bufnr, hidden_files)
       end
-      actions.select_default:replace(on_project_selected)
+      actions.select_default:replace(_actions.change_working_directory)
       return true
     end
   }):find()
