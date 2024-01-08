@@ -123,10 +123,11 @@ M.string_starts_with = function(text, start)
 end
 
 M.open_in_nvim_tree = function(project_path)
-    local status_ok, nvim_tree = pcall(require, "nvim-tree")
+    local status_ok, nvim_tree_api = pcall(require, "nvim-tree.api")
     if status_ok then
-      nvim_tree.change_dir(project_path)
-      nvim_tree.open(project_path)
+      local tree = nvim_tree_api.tree
+      tree.change_root(project_path)
+      tree.open(project_path)
       vim.cmd('wincmd p')
     end
 end
@@ -146,11 +147,15 @@ M.update_last_accessed_project_time = function(project_path)
 end
 
 -- Change directory only when path exists
-M.change_project_dir = function(project_path)
+M.change_project_dir = function(project_path, cd_scope)
+  if not cd_scope then
+    cd_scope = "tcd"
+  end
+
   if Path:new(project_path):exists() then
     -- vim.cmd('silent! Open '..project_path)
     M.update_last_accessed_project_time(project_path)
-    vim.fn.execute("cd " .. project_path, "silent")
+    vim.fn.execute(cd_scope .. " " .. project_path, "silent")
     if sync_with_nvim_tree then
       M.open_in_nvim_tree(project_path)
     end
