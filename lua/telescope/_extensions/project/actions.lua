@@ -143,7 +143,9 @@ end
 M.find_project_files_nocd = function(prompt_bufnr, hidden_files)
   local project_path = M.get_selected_path(prompt_bufnr)
   actions._close(prompt_bufnr, true)
-  builtin.find_files({cwd = project_path, hidden = hidden_files})
+  vim.schedule(function()
+    builtin.find_files({cwd = project_path, hidden = hidden_files})
+  end)
 end
 
 -- Browse through files within the selected project using
@@ -180,7 +182,9 @@ end
 M.search_in_project_files_nocd = function(prompt_bufnr)
   local project_path = M.get_selected_path(prompt_bufnr)
   actions._close(prompt_bufnr, true)
-  builtin.live_grep({cwd = project_path})
+  vim.schedule(function()
+    builtin.live_grep({cwd = project_path})
+  end)
 end
 
 -- Search the recently used files within the selected project
@@ -200,7 +204,7 @@ end
 M.change_working_directory = function(prompt_bufnr)
   local project_path = M.get_selected_path(prompt_bufnr)
   actions.close(prompt_bufnr)
-  _utils.change_project_dir(project_path, "tcd")
+  _utils.change_project_dir(project_path, "cd")
 end
 
 -- Load scopes table, select first scope

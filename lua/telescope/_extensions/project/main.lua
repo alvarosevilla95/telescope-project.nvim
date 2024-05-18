@@ -85,14 +85,7 @@ M.project = function(opts)
       -- map('i', '<c-r>', _actions.recent_project_files)
       -- map('i', '<c-l>', _actions.change_working_directory)
       -- map('i', '<c-w>', _actions.change_workspace)
-      local handler = function()
-        if on_project_selected then
-          on_project_selected(prompt_bufnr)
-        else
-          _actions.find_project_files(prompt_bufnr, hidden_files)
-        end
-      end
-      actions.select_default:replace(handler)
+      actions.select_default:replace(_actions.change_working_directory)
       return true
     end
   }):find()
